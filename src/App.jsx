@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {Vector3, Euler} from 'three';
+import * as THREE from 'three';
+import Part from './part.js'
+import Colors from "./colors.js";
+
+let animationHandlers = []
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  const clock = new THREE.Clock(true);
+  
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  camera.position.z = 5
+  camera.position.y = 0;
+  
+  const light = new THREE.DirectionalLight(0xffffff, 1); // White light, intensity 1
+  light.position.set(1, 1, 1);
+  scene.add(light);
+  
+  const renderer = new THREE.WebGLRenderer( { antialias: true } );
+  renderer.setAnimationLoop(() => animationFrameCallback(clock, renderer, scene, camera) );
+  
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+  
+  let part = new Part(
+    [Colors.white, Colors.blue, Colors.red],
+    new Euler(0, 0, 0),
+    new Vector3(0, 0, 0),
+  );
+      
+  animationHandlers.push((deltaTime) => part.rotatingAnimation(deltaTime, {x: 0.5, y: 0.5}));
+  
+  scene.add(part.render());
+  
+  renderer.render( scene, camera );
 }
+
+function animationFrameCallback(clock, renderer, scene, camera) {
+  let deltaTime = clock.getDelta()
+  
+  for (const animationHandler of animationHandlers) {
+    animationHandler(deltaTime);
+  }
+  
+  renderer.render( scene, camera );
+}
+
 
 export default App
