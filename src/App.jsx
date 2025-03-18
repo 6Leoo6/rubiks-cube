@@ -24,7 +24,7 @@ function App() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
   
-  let part = new Piece([Colors.white, Colors.blue, Colors.red]);
+  let part = new Piece([Colors.white, Colors.green, Colors.orange]);
   
   scene.add(part.render(
     new Vector3(0, 0, 0),
