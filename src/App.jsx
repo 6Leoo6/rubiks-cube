@@ -12,7 +12,7 @@ function App() {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
   camera.position.z = 5
-  camera.position.y = 0;
+  camera.position.x = 0;
   
   const light = new THREE.DirectionalLight(0xffffff, 1); // White light, intensity 1
   light.position.set(1, 1, 1);
@@ -25,8 +25,6 @@ function App() {
   document.body.appendChild( renderer.domElement );
   
   let part = new Piece([Colors.white, Colors.blue, Colors.red]);
-      
-  animationHandlers.push((deltaTime) => part.rotatingAnimation(deltaTime, {x: 0.5, y: 0.5}));
   
   scene.add(part.render(
     new Vector3(0, 0, 0),

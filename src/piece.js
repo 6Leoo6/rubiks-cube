@@ -57,22 +57,19 @@ class Piece {
 
 /*
 Order of faces on a cube
-  -Right (Blue)
-  -Left (Green)
+  -Right (Red)
+  -Left (Orange)
   -Top (White)
   -Bottom (Yellow)
-  -Front (Red)
-  -Back (Orange)
+  -Front (Green)
+  -Back (Blue)
 */
 
 /*
 Order of rotations (Corner piece)
-  0:
-    -Top
-    -Front
-    -Left
-  1:
-    -
+  -Top
+  -Front
+  -Left
 */
 
 export default Piece;
