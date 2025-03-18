@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Colors from './colors.js';
 
-class Part {
+class Piece {
   constructor (_colors) {
     this.colors = _colors
     
@@ -75,4 +75,4 @@ Order of rotations (Corner piece)
     -
 */
 
-export default Part;
+export default Piece;

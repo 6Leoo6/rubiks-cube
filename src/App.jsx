@@ -1,7 +1,7 @@
 import './App.css'
 import {Vector3, Euler} from 'three';
 import * as THREE from 'three';
-import Part from './part.js'
+import Piece from './piece.js'
 import Colors from "./colors.js";
 
 let animationHandlers = []
@@ -24,7 +24,7 @@ function App() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
   
-  let part = new Part([Colors.white, Colors.blue, Colors.red]);
+  let part = new Piece([Colors.white, Colors.blue, Colors.red]);
       
   animationHandlers.push((deltaTime) => part.rotatingAnimation(deltaTime, {x: 0.5, y: 0.5}));
   
