@@ -2,20 +2,19 @@ import * as THREE from 'three';
 import Colors from './colors.js';
 
 class Part {
-  constructor (_colors, _rotation, _position) {
+  constructor (_colors) {
     this.colors = _colors
-    this.rotation = _rotation ?? new THREE.Euler();
-    this.position = _position ?? new THREE.Vector3();
     
     this.top = this.colors[0]
     this.front = this.colors[1]
     this.left = this.colors[2]
   }
   
-  render () {
-    this.geometry = new THREE.BoxGeometry( 1, 1, 1 ).toNonIndexed();
-    this.positionAttribute = this.geometry.getAttribute( 'position' );
+  render (_position, _rotation) {
+    this.position = _position ?? new THREE.Vector3();
+    this.rotation = _rotation ?? new THREE.Euler();
     
+    this.geometry = new THREE.BoxGeometry( 1, 1, 1 ).toNonIndexed();
     this.material = new THREE.MeshBasicMaterial( { vertexColors: true } );
     
     this.geometry.setAttribute( 'color', new THREE.BufferAttribute(

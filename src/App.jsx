@@ -24,15 +24,14 @@ function App() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild( renderer.domElement );
   
-  let part = new Part(
-    [Colors.white, Colors.blue, Colors.red],
-    new Euler(0, 0, 0),
-    new Vector3(0, 0, 0),
-  );
+  let part = new Part([Colors.white, Colors.blue, Colors.red]);
       
   animationHandlers.push((deltaTime) => part.rotatingAnimation(deltaTime, {x: 0.5, y: 0.5}));
   
-  scene.add(part.render());
+  scene.add(part.render(
+    new Vector3(0, 0, 0),
+    new Euler(0, 0, 0),
+  ));
   
   renderer.render( scene, camera );
 }
