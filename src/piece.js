@@ -1,45 +1,55 @@
 import * as THREE from 'three';
 import Colors from './colors.js';
+import {Euler} from "three";
 
 class Piece {
-  constructor (_colors) {
+  constructor (_engine, _colors, _localPosition, _localRotation) {
+    this.engine = _engine;
     this.colors = _colors
     
-    this.top = this.colors[0]
-    this.front = this.colors[1]
-    this.left = this.colors[2]
+    this.localPosition = _localPosition;
+    this.localRotation = _localRotation;
+
+    this.front = this.colors[0];
+    this.top = this.colors[1];
+    this.left = this.colors[2];
   }
   
-  render (_position, _rotation) {
-    this.position = _position ?? new THREE.Vector3();
-    this.rotation = _rotation ?? new THREE.Euler();
+  render (_cubePosition, _cubeRotation) {
+    let position = _cubePosition ?? new THREE.Vector3();
+    let rotation = _cubeRotation ?? new THREE.Euler();
     
     this.geometry = new THREE.BoxGeometry( 1, 1, 1 ).toNonIndexed();
     this.material = new THREE.MeshBasicMaterial( { vertexColors: true } );
     
     this.geometry.setAttribute( 'color', new THREE.BufferAttribute(
-      new Float32Array([
-        ...Colors.black,
-        ...Colors.black,
-        ...this.left  ?? Colors.black,
-        ...this.left  ?? Colors.black,
-        ...this.top   ?? Colors.black,
-        ...this.top   ?? Colors.black,
-        ...Colors.black,
-        ...Colors.black,
-        ...this.front ?? Colors.black,
-        ...this.front ?? Colors.black,
-        ...Colors.black,
-        ...Colors.black,
-      ]
-    ), 3 ) );
+      new Float32Array(
+        [
+          ...Colors.white,
+          ...Colors.black,
+          ...this.left  ?? Colors.black,
+          ...this.left  ?? Colors.black,
+          ...this.top   ?? Colors.black,
+          ...this.top   ?? Colors.black,
+          ...Colors.white,
+          ...Colors.black,
+          ...this.front ?? Colors.black,
+          ...this.front ?? Colors.black,
+          ...Colors.white,
+          ...Colors.black,
+        ]
+      ),
+      3,
+    ));
     
     this.mesh = new THREE.Mesh( this.geometry, this.material );
     
-    this.mesh.setRotationFromEuler(this.rotation);
-    this.mesh.position.copy(this.position);
+    this.mesh.position.copy(this.localPosition);
+    this.mesh.setRotationFromEuler(this.localRotation);
     
-    return this.mesh;
+    console.log(this.localPosition, this.localRotation);
+    
+    this.engine.scene.add(this.mesh);
   }
   
   rotatingAnimation (deltaTime, {x = 0, y = 0, z = 0}) {
