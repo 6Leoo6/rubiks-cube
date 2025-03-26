@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Colors from './colors.js';
 import {Euler} from "three";
+import {rotateAroundAxis} from "./rotation.js";
 
 class Piece {
   constructor (_engine, _colors, _localPosition, _localRotation) {
@@ -16,8 +17,28 @@ class Piece {
   }
   
   render (_cubePosition, _cubeRotation) {
-    let position = _cubePosition ?? new THREE.Vector3();
-    let rotation = _cubeRotation ?? new THREE.Euler();
+    let position;
+    let rotation = new THREE.Euler();
+    
+    if(_cubeRotation) {
+      rotation.x = _cubeRotation.x + this.localRotation.x
+      rotation.y = _cubeRotation.y + this.localRotation.y
+      rotation.z = _cubeRotation.z + this.localRotation.z
+      
+      position = rotateAroundAxis(this.localPosition, _cubeRotation);
+      
+      position.x += _cubePosition.x;
+      position.y += _cubePosition.y;
+      position.z += _cubePosition.z;
+    } else {
+      rotation = this.localRotation.clone();
+      
+      position = this.localPosition.clone();
+      
+      position.x += _cubePosition.x;
+      position.y += _cubePosition.y;
+      position.z += _cubePosition.z;
+    }
     
     this.geometry = new THREE.BoxGeometry( 1, 1, 1 ).toNonIndexed();
     this.material = new THREE.MeshBasicMaterial( { vertexColors: true } );
@@ -44,10 +65,8 @@ class Piece {
     
     this.mesh = new THREE.Mesh( this.geometry, this.material );
     
-    this.mesh.position.copy(this.localPosition);
-    this.mesh.setRotationFromEuler(this.localRotation);
-    
-    console.log(this.localPosition, this.localRotation);
+    this.mesh.position.copy(position);
+    this.mesh.setRotationFromEuler(rotation);
     
     this.engine.scene.add(this.mesh);
   }
@@ -77,8 +96,8 @@ Order of faces on a cube
 
 /*
 Order of rotations (Corner piece)
-  -Top
   -Front
+  -Top
   -Left
 */
 

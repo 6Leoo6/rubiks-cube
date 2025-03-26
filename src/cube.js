@@ -137,7 +137,7 @@ class Cube {
       );
       
       let piece = new Piece(this.engine, pieceColor, localPosition, localRotation);
-      console.log(i + 1, angleOfRotation, localPosition, localRotation);
+      console.log(i + 1, localPosition, localRotation);
       for (const color of pieceColor) {
         let colorName;
         for (let [key, colorObject] of Object.entries(Colors)) {
@@ -153,7 +153,7 @@ class Cube {
       i++;
     }
     
-    this.render(new Vector3(), new Euler(), true);
+    this.render(new Vector3(0, 0, 0), new Euler(0, Math.PI / 4, 0), true);
   }
   
   render(_position, _rotation, initialRender=false) {
