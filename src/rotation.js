@@ -1,4 +1,5 @@
 import {Vector3} from "three";
+import {roundVector} from "./roundVectors.js";
 
 export function rotateAroundAxis(_point, _rotation) {
   let [x, y, z] = [_rotation.x, _rotation.y, _rotation.z];
@@ -24,5 +25,5 @@ export function rotateAroundAxis(_point, _rotation) {
   
   point.copy(tempPoint);
   
-  return point;
+  return roundVector(point);
 }

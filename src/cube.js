@@ -153,7 +153,7 @@ class Cube {
       i++;
     }
     
-    this.render(new Vector3(0, 0, 0), new Euler(0, Math.PI / 4, 0), true);
+    this.render(new Vector3(0, 0, 0), new Euler(0, 0, 0), true);
   }
   
   render(_position, _rotation, initialRender=false) {
