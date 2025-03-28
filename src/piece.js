@@ -21,11 +21,15 @@ class Piece {
     let rotation = new THREE.Euler();
     
     if(_cubeRotation) {
-      rotation.x = _cubeRotation.x + this.localRotation.x
-      rotation.y = _cubeRotation.y + this.localRotation.y
-      rotation.z = _cubeRotation.z + this.localRotation.z
+      let rotationQ = new THREE.Quaternion();
+      let cubeRotationQ = new THREE.Quaternion().setFromEuler(_cubeRotation);
+      let localRotationQ = new THREE.Quaternion().setFromEuler(this.localRotation);
       
-      position = rotateAroundAxis(this.localPosition, _cubeRotation);
+      rotationQ.multiplyQuaternions(cubeRotationQ, localRotationQ);
+      rotation.setFromQuaternion(rotationQ);
+      
+      position = rotateAroundAxis(this.localPosition, rotation);
+      console.log(this.localPosition, position, this.localRotation);
       
       position.x += _cubePosition.x;
       position.y += _cubePosition.y;
